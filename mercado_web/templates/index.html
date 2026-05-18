@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Login | Mercado Fácil Pro{% endblock %}
+{% block content %}
+<div class="row g-4 align-items-stretch">
+    <div class="col-lg-7">
+        <div class="hero-panel h-100 p-4 p-lg-5">
+            <span class="badge bg-success-subtle text-success-emphasis mb-3">Versão web em Flask</span>
+            <h1 class="display-5 fw-bold text-white">Seu sistema de mercado agora compatível com navegador</h1>
+            <p class="lead text-light opacity-75">Login por perfil, catálogo com carrinho, histórico de pedidos e painel administrativo em uma estrutura pronta para evoluir.</p>
+
+            <div class="row g-3 mt-3">
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <h5>Perfis</h5>
+                        <p>Dono, funcionário e cliente com rotas separadas.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <h5>Catálogo</h5>
+                        <p>Busca, filtro por categoria e compra com estoque real.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <h5>Admin</h5>
+                        <p>CRUD de produtos, pedidos e indicadores do mercado.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 text-light small opacity-75">
+                <div>Login dono: <strong>dono</strong> / <strong>admin123</strong></div>
+                <div>Login funcionário: <strong>funcionario</strong> / <strong>func123</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card app-card shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h3 class="fw-bold">Entrar</h3>
+                <p class="text-secondary">Acesse como administrador, funcionário ou cliente.</p>
+                <form method="post" class="row g-3">
+                    <input type="hidden" name="acao" value="login">
+                    <div class="col-12">
+                        <label class="form-label">Usuário</label>
+                        <input type="text" name="usuario" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Senha</label>
+                        <input type="password" name="senha" class="form-control" required>
+                    </div>
+                    <div class="col-12 d-grid">
+                        <button class="btn btn-success btn-lg">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card app-card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="fw-bold">Criar conta de cliente</h3>
+                <p class="text-secondary">Cadastro rápido para começar a comprar.</p>
+                <form method="post" class="row g-3">
+                    <input type="hidden" name="acao" value="cadastro">
+                    <div class="col-12">
+                        <label class="form-label">Nome completo</label>
+                        <input type="text" name="nome" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Usuário</label>
+                        <input type="text" name="novo_usuario" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Senha</label>
+                        <input type="password" name="nova_senha" class="form-control" required>
+                    </div>
+                    <div class="col-12 d-grid">
+                        <button class="btn btn-primary btn-lg">Criar conta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}Painel Administrativo{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mb-4 gap-3">
+    <div>
+        <h1 class="fw-bold mb-1">Painel administrativo</h1>
+        <p class="text-secondary mb-0">Resumo do mercado, gestão de produtos e acompanhamento de pedidos.</p>
+    </div>
+    <a href="{{ url_for('admin_novo_produto') }}" class="btn btn-success">Novo produto</a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="metric-card"><span>Produtos</span><strong>{{ resumo.produtos }}</strong></div></div>
+    <div class="col-md-3"><div class="metric-card"><span>Estoque total</span><strong>{{ resumo.estoque }}</strong></div></div>
+    <div class="col-md-3"><div class="metric-card"><span>Pedidos</span><strong>{{ resumo.pedidos }}</strong></div></div>
+    <div class="col-md-3"><div class="metric-card"><span>Faturamento</span><strong>R$ {{ '%.2f'|format(resumo.faturamento) }}</strong></div></div>
+</div>
+
+<div class="row g-4">
+    <div class="col-xl-7">
+        <div class="card app-card shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold mb-0">Produtos cadastrados</h3>
+                    <span class="text-secondary small">{{ produtos|length }} item(ns)</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Estoque</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for produto in produtos %}
+                            <tr>
+                                <td>{{ produto.id }}</td>
+                                <td>
+                                    <div class="fw-semibold">{{ produto.nome }}</div>
+                                    <div class="small text-secondary">{{ produto.descricao }}</div>
+                                </td>
+                                <td>{{ produto.categoria }}</td>
+                                <td>R$ {{ '%.2f'|format(produto.preco) }}</td>
+                                <td>{{ produto.estoque }}</td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin_editar_produto', produto_id=produto.id) }}">Editar</a>
+                                    <form method="post" action="{{ url_for('admin_excluir_produto', produto_id=produto.id) }}" class="d-inline">
+                                        <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Excluir este produto?')">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr><td colspan="6" class="text-center text-secondary py-4">Nenhum produto cadastrado.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-5">
+        <div class="card app-card shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold mb-0">Pedidos recentes</h3>
+                    <span class="text-secondary small">{{ pedidos|length }} pedido(s)</span>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for pedido in pedidos %}
+                    <div class="list-group-item px-0 py-3 bg-transparent">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <div class="fw-semibold">Pedido #{{ pedido.id }} • {{ pedido.nome }}</div>
+                                <div class="small text-secondary">@{{ pedido.usuario }} • {{ pedido.criado_em }}</div>
+                                <div class="small mt-1"><span class="badge text-bg-success">{{ pedido.status }}</span></div>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-success">R$ {{ '%.2f'|format(pedido.total) }}</div>
+                                <a class="small" href="{{ url_for('admin_detalhe_pedido', pedido_id=pedido.id) }}">Ver itens</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center text-secondary py-4">Nenhum pedido encontrado.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

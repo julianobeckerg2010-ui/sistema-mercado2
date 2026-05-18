@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Detalhes do pedido{% endblock %}
+{% block content %}
+<div class="card app-card shadow-sm">
+    <div class="card-body p-4 p-lg-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">Pedido #{{ pedido_id }}</h1>
+                <p class="text-secondary mb-0">Itens registrados nesta compra.</p>
+            </div>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Voltar</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Preço unitário</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in itens %}
+                    <tr>
+                        <td>{{ item.nome_produto }}</td>
+                        <td>{{ item.quantidade }}</td>
+                        <td>R$ {{ '%.2f'|format(item.preco_unitario) }}</td>
+                        <td>R$ {{ '%.2f'|format(item.subtotal) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

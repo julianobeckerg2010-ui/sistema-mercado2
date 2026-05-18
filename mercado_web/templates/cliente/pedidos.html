@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Meus pedidos{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">Meus pedidos</h1>
+        <p class="text-secondary mb-0">Acompanhe o histórico das suas compras.</p>
+    </div>
+    <a href="{{ url_for('catalogo') }}" class="btn btn-outline-secondary">Voltar ao catálogo</a>
+</div>
+
+{% if pedidos_com_itens %}
+    <div class="vstack gap-4">
+        {% for bloco in pedidos_com_itens %}
+        <div class="card app-card shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-1">Pedido #{{ bloco.pedido.id }}</h4>
+                        <div class="text-secondary">{{ bloco.pedido.criado_em }}</div>
+                    </div>
+                    <div class="text-lg-end">
+                        <div><span class="badge text-bg-success">{{ bloco.pedido.status }}</span></div>
+                        <div class="fw-bold text-success mt-1">R$ {{ '%.2f'|format(bloco.pedido.total) }}</div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Preço unitário</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in bloco.itens %}
+                            <tr>
+                                <td>{{ item.nome_produto }}</td>
+                                <td>{{ item.quantidade }}</td>
+                                <td>R$ {{ '%.2f'|format(item.preco_unitario) }}</td>
+                                <td>R$ {{ '%.2f'|format(item.subtotal) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card app-card shadow-sm">
+        <div class="card-body text-center py-5">
+            <h4 class="fw-bold">Nenhum pedido encontrado</h4>
+            <p class="text-secondary">Assim que você finalizar uma compra, ela aparecerá aqui.</p>
+            <a href="{{ url_for('catalogo') }}" class="btn btn-success">Comprar agora</a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

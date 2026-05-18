@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Carrinho{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">Seu carrinho</h1>
+        <p class="text-secondary mb-0">Revise os itens antes de finalizar a compra.</p>
+    </div>
+    <a href="{{ url_for('catalogo') }}" class="btn btn-outline-secondary">Continuar comprando</a>
+</div>
+
+<div class="card app-card shadow-sm">
+    <div class="card-body p-4">
+        {% if itens %}
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Quantidade</th>
+                            <th>Subtotal</th>
+                            <th class="text-end">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in itens %}
+                        <tr>
+                            <td class="fw-semibold">{{ item.nome }}</td>
+                            <td>R$ {{ '%.2f'|format(item.preco) }}</td>
+                            <td>{{ item.quantidade }}</td>
+                            <td>R$ {{ '%.2f'|format(item.subtotal) }}</td>
+                            <td class="text-end">
+                                <form method="post" action="{{ url_for('remover_carrinho', produto_id=item.produto_id) }}">
+                                    <button class="btn btn-sm btn-outline-danger">Remover</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-4 pt-3 border-top">
+                <div>
+                    <div class="text-secondary">Total do pedido</div>
+                    <div class="display-6 fw-bold text-success">R$ {{ '%.2f'|format(total) }}</div>
+                </div>
+                <form method="post" action="{{ url_for('checkout') }}">
+                    <button class="btn btn-success btn-lg">Finalizar compra</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <h4 class="fw-bold">Seu carrinho está vazio</h4>
+                <p class="text-secondary">Adicione produtos no catálogo para gerar seu pedido.</p>
+                <a href="{{ url_for('catalogo') }}" class="btn btn-success">Ir para o catálogo</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
